@@ -415,12 +415,13 @@ void* CacheScriptContainer(lua_State *L, void *Key, const FScriptContainerDesc &
 
         MarkScriptContainer(L, -1);                         // set flag
     }
-#if UE_BUILD_DEBUG
     else
     {
+#if UE_BUILD_DEBUG
         check(Type == LUA_TUSERDATA);
-    }
 #endif
+        luaL_setmetatable(L, Desc.GetName());               // set metatable
+    }
     lua_remove(L, -2);
     return Userdata;            // return null if container is already cached, or the new created userdata otherwise
 }
